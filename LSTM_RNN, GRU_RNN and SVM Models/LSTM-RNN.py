@@ -78,7 +78,6 @@ if __name__ == "__main__":
     # create network
     print(X_train.shape)
     input_shape = (X_train.shape[1], X_train.shape[2])
-    print(input_shape)
 
     model = build_model(input_shape)
 
@@ -98,4 +97,14 @@ if __name__ == "__main__":
 
     # evaluate model on test set
     test_loss, test_acc = model.evaluate(X_test, y_test, verbose=2)
-    print('\nTest accuracy:', test_acc)
+    y_pred = model.predict(X_test)
+    y_pred_bool = np.argmax(y_pred, axis=1)
+    performance_metrix = precision_recall_fscore_support(y_test, y_pred_bool, average='binary')
+    pr=performance_metrix[0]
+    rr=performance_metrix[1]
+    f1=performance_metrix[2]
+    
+    print('\nTest Accuracy:', test_acc)
+    print('\nPrecision Rate:', pr)
+    print('\nF1 Score:', f1)
+    print('\nRecall Rate:', rr)

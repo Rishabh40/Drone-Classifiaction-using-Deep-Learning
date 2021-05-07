@@ -2,6 +2,7 @@ import json
 import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn import svm,datasets
+from sklearn.metrics import precision_recall_fscore_support
 import matplotlib.pyplot as plt
 from sklearn.metrics import accuracy_score
 
@@ -44,6 +45,15 @@ if __name__ == "__main__":
     # train model
     clf=svm.SVC(kernel='linear',C=1).fit(X_train,y_train)
 
-    # testing
-    classifier_prediction=clf.predict(X_test)
-    print(accuracy_score(y_test,classifier_prediction)*100)
+    # test model
+    y_pred=clf.predict(X_test)
+    test_acc=accuracy_score(y_test,y_pred)
+    performance_metrix = precision_recall_fscore_support(y_test, y_pred, average='binary')
+    pr=performance_metrix[0]
+    rr=performance_metrix[1]
+    f1=performance_metrix[2]
+
+    print('\nTest Accuracy:', test_acc)
+    print('\nPrecision Rate:', pr)
+    print('\nF1 Score:', f1)
+    print('\nRecall Rate:', rr)
